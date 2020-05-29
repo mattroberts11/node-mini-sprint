@@ -10,15 +10,28 @@ $(document).ready(function() {
     addQuote(quote);
   });
 
-  function getQuote(){
+function getQuote(callback) {
+  //YOUR CODE HERE, Add a GET request
+    $.get('http://localhost:3000/quote/',  function( data ){
+        $('h2').html(data);
+    })
 
-    //YOUR CODE HERE, Add a GET request
-
+    .done( data => {
+      console.log('Success!');
+    })
   }
 
-  function addQuote(quote){
-    
-    //YOUR CODE HERE, Add a POST request
+function addQuote(quote){
+  $.ajax({
+    method: "POST",
+    url: "http://localhost:3000/quote/",
+    data: quote
+  })
+
+  .done(function( msg ) {
+
+      $('#response').html(msg);
+  });
 
   }
 });

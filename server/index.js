@@ -10,13 +10,13 @@ const headers = {
 
 const port = 3000;
 
-// TODO: Fill with strings of your favorite quotes :)
+// TODO: Fill with strings of your favorite quotes :) ====== DONE
 const quotes = [
-  'one',
-  'two',
-  'three',
-  'four',
-  'five'
+  'I am always doing that which I cannot do, in order that I may learn how to do it.',
+  'The affect you have on others is the most valuable currency there is.',
+  'Success is not final, failure is not fatal, it is the courage to continue that counts.',
+  'It is not death that a man should fear, but he should fear never beginning to live.',
+  'Ninety-nine percent of the failures come from people who have the habit of making excuses.'
 ];
 
 //Utility Function to return a random integer
@@ -37,20 +37,32 @@ const handleRequest = function(req, res) {
   }
 
   // TODO: GET ONE
-  if ((req.url == '/quote/' || req.url == '/quote') && req.method == "FILL ME IN") {
+  if ((req.url == '/quote/' || req.url == '/quote') && req.method == "GET") {
     //YOUR CODE HERE
-
+    res.writeHead(200, {...headers});
+    index = getRandomInt(0, quotes.length);
+    res.end(`${quotes[index]}`);
   }
   // TODO: POST/CREATE
-  else if ((req.url == 'FILL ME IN' || req.url == 'FILL ME IN') && req.method == "FILL ME IN") {
+  else if ((req.url == '/quote/' || req.url == '/quote') && req.method == "POST") {
     //YOUR CODE HERE
+    res.writeHead(200, {...headers});
+    let body = '';
+    req.on('data', chunk => {
+        body += chunk.toString(); // convert Buffer to string
+    });
+    req.on('end', () => {
+        console.log(body);
+        quotes.push(body);
+        console.log('quotesArray:', quotes)
+        res.end(body);
+    });
   }
 
 //CATCH ALL ROUTE
   else {
     res.writeHead(404,headers);
     res.end('Page not found');
-
   }
 }
 
